@@ -10,12 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardCarbonRouteImport } from './routes/dashboard.carbon'
+import { Route as DashboardEnergyRouteImport } from './routes/dashboard.energy'
+import { Route as DashboardSustainabilityRouteImport } from './routes/dashboard.sustainability'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -28,33 +38,92 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCarbonRoute = DashboardCarbonRouteImport.update({
+  id: '/carbon',
+  path: '/carbon',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardEnergyRoute = DashboardEnergyRouteImport.update({
+  id: '/energy',
+  path: '/energy',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSustainabilityRoute = DashboardSustainabilityRouteImport.update({
+  id: '/sustainability',
+  path: '/sustainability',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/carbon': typeof DashboardCarbonRoute
+  '/dashboard/energy': typeof DashboardEnergyRoute
+  '/dashboard/sustainability': typeof DashboardSustainabilityRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/carbon': typeof DashboardCarbonRoute
+  '/dashboard/energy': typeof DashboardEnergyRoute
+  '/dashboard/sustainability': typeof DashboardSustainabilityRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/carbon': typeof DashboardCarbonRoute
+  '/dashboard/energy': typeof DashboardEnergyRoute
+  '/dashboard/sustainability': typeof DashboardSustainabilityRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/dashboard/carbon'
+    | '/dashboard/energy'
+    | '/dashboard/sustainability'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register'
-  id: '__root__' | '/' | '/login' | '/register'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/dashboard/carbon'
+    | '/dashboard/energy'
+    | '/dashboard/sustainability'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/dashboard/carbon'
+    | '/dashboard/energy'
+    | '/dashboard/sustainability'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
@@ -66,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -82,11 +158,58 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/carbon': {
+      id: '/dashboard/carbon'
+      path: '/carbon'
+      fullPath: '/dashboard/carbon'
+      preLoaderRoute: typeof DashboardCarbonRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/energy': {
+      id: '/dashboard/energy'
+      path: '/energy'
+      fullPath: '/dashboard/energy'
+      preLoaderRoute: typeof DashboardEnergyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/sustainability': {
+      id: '/dashboard/sustainability'
+      path: '/sustainability'
+      fullPath: '/dashboard/sustainability'
+      preLoaderRoute: typeof DashboardSustainabilityRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardCarbonRoute: typeof DashboardCarbonRoute
+  DashboardEnergyRoute: typeof DashboardEnergyRoute
+  DashboardSustainabilityRoute: typeof DashboardSustainabilityRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardCarbonRoute: DashboardCarbonRoute,
+  DashboardEnergyRoute: DashboardEnergyRoute,
+  DashboardSustainabilityRoute: DashboardSustainabilityRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }
