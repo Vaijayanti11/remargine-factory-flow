@@ -13,6 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResultRouteImport } from './routes/result'
+import { Route as TrackerRouteImport } from './routes/tracker'
+import { Route as UploadRouteImport } from './routes/upload'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardCarbonRouteImport } from './routes/dashboard.carbon'
 import { Route as DashboardEnergyRouteImport } from './routes/dashboard.energy'
@@ -36,6 +39,21 @@ const LoginRoute = LoginRouteImport.update({
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResultRoute = ResultRouteImport.update({
+  id: '/result',
+  path: '/result',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackerRoute = TrackerRouteImport.update({
+  id: '/tracker',
+  path: '/tracker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UploadRoute = UploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
@@ -64,6 +82,9 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/result': typeof ResultRoute
+  '/tracker': typeof TrackerRoute
+  '/upload': typeof UploadRoute
   '/dashboard/carbon': typeof DashboardCarbonRoute
   '/dashboard/energy': typeof DashboardEnergyRoute
   '/dashboard/sustainability': typeof DashboardSustainabilityRoute
@@ -73,6 +94,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/result': typeof ResultRoute
+  '/tracker': typeof TrackerRoute
+  '/upload': typeof UploadRoute
   '/dashboard/carbon': typeof DashboardCarbonRoute
   '/dashboard/energy': typeof DashboardEnergyRoute
   '/dashboard/sustainability': typeof DashboardSustainabilityRoute
@@ -84,6 +108,9 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/result': typeof ResultRoute
+  '/tracker': typeof TrackerRoute
+  '/upload': typeof UploadRoute
   '/dashboard/carbon': typeof DashboardCarbonRoute
   '/dashboard/energy': typeof DashboardEnergyRoute
   '/dashboard/sustainability': typeof DashboardSustainabilityRoute
@@ -96,6 +123,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/result'
+    | '/tracker'
+    | '/upload'
     | '/dashboard/carbon'
     | '/dashboard/energy'
     | '/dashboard/sustainability'
@@ -105,6 +135,9 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/result'
+    | '/tracker'
+    | '/upload'
     | '/dashboard/carbon'
     | '/dashboard/energy'
     | '/dashboard/sustainability'
@@ -115,6 +148,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/result'
+    | '/tracker'
+    | '/upload'
     | '/dashboard/carbon'
     | '/dashboard/energy'
     | '/dashboard/sustainability'
@@ -126,6 +162,9 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  ResultRoute: typeof ResultRoute
+  TrackerRoute: typeof TrackerRoute
+  UploadRoute: typeof UploadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -156,6 +195,27 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/result': {
+      id: '/result'
+      path: '/result'
+      fullPath: '/result'
+      preLoaderRoute: typeof ResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tracker': {
+      id: '/tracker'
+      path: '/tracker'
+      fullPath: '/tracker'
+      preLoaderRoute: typeof TrackerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upload': {
+      id: '/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof UploadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -212,6 +272,9 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  ResultRoute: ResultRoute,
+  TrackerRoute: TrackerRoute,
+  UploadRoute: UploadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
